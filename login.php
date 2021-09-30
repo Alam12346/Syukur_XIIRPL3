@@ -1,0 +1,86 @@
+<?php
+
+// Lampirkan dbconfig 
+
+require_once "bdconfig.php";
+
+// Cek status login user 
+
+if ($user->isLoggedIn()) {
+
+    header("location: wisataa.php"); //redirect ke index 
+
+}
+
+//jika ada data yg dikirim 
+
+if (isset($_POST['kirim'])) {
+
+    $email = $_POST['email'];
+
+    $password = $_POST['password'];
+
+    // Proses login user 
+
+    if ($user->login($email, $password)) {
+
+        header("location: wisataa.php");
+    } else {
+
+        // Jika login gagal, ambil pesan error 
+
+        $error = $user->getLastError();
+    }
+}
+
+?>
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+
+    <title>Login</title>
+
+    <link rel="stylesheet" href="cssnya.css" media="screen" title="no title" charset="utf-8">
+
+</head>
+
+<body>
+
+    <div class="login-page">
+
+        <div class="form">
+
+            <form class="login-form" method="post">
+
+                <?php if (isset($error)) : ?>
+
+                    <div class="error">
+
+                        <?php echo $error ?>
+
+                    </div>
+
+                <?php endif; ?>
+
+                <input type="email" name="email" placeholder="email" required />
+
+                <input type="password" name="password" placeholder="password" required />
+
+                <button type="submit" name="kirim">login</button>
+
+                <p class="message">belum punya akun? <a href="registrasi.php">buat</a></p>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
